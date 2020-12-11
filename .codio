@@ -1,0 +1,6 @@
+
+{
+  "preview": {
+        "Live Server": "https://{{domain}}/{{index}}"
+  }
+}

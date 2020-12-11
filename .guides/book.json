@@ -1,0 +1,17 @@
+{
+ "name": "Progressive Web App Template",
+ "children": [
+  {
+   "title": "Progressive Web App Template",
+   "id": "1ec2c0d2-f676-c535-aa04-10b95b9272d6",
+   "pageId": "1ec2c0d2-f676-c535-aa04-10b95b9272d6",
+   "type": "page"
+  },
+  {
+   "title": "Page 2",
+   "id": "00798083-5d70-f87e-6c4a-5b427dd3ab91",
+   "pageId": "00798083-5d70-f87e-6c4a-5b427dd3ab91",
+   "type": "page"
+  }
+ ]
+}
