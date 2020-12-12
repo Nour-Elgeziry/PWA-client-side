@@ -25,10 +25,10 @@ export async function setup() {
 				const div = document.createElement('div')
 				div.classList.add('carousel__item','carousel__item--visible')	
 				
-				//create img element for item image
+				/*create img element for item image
 				const itemImage = document.createElement('img')
 				const image = 
-								
+					*/			
 				//create h3 elemnt for item name
 				const itemName = document.createElement('h3')
 				//get item name
