@@ -19,4 +19,4 @@ jobs:
       - name: install node packages
         run: npm install
       - name: run the linter
-        run: npm run linter
+        run: ./node_modules/.bin/eslint .
