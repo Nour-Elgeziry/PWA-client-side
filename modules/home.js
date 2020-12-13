@@ -12,52 +12,106 @@ export async function setup() {
 	try {
 		console.log('MAIN SCRIPT')
 		const url = `${apiURL}/items/`
-		console.log(url)
 		const json = await fetch(url)
 		const data = await json.json()		
 		console.log("number of items = ", data.data.length)
+		
+		
 		for(let item of data.data){
-			console.log('item',item)			
+		
+			//fetch eact item info
+			const itemUrl = `${item.ItemDetail}`
+			const itemJson = await fetch(itemUrl)
+			const itemData = await itemJson.json()
+			
+			const itemInfo = itemData.data
+			console.log('item info: ', itemInfo)
+				
+			// create carousel item div
+			const div = document.createElement('div')
 			//check if this is the first element to be added(by checking the index of the item) to add isvisible class
 			if(data.data.indexOf(item) == 0){	
-				console.log('item index == 0')
-				// create carousel item div
-				const div = document.createElement('div')
-				div.classList.add('carousel__item','carousel__item--visible')	
-				
-				/*create img element for item image
-				const itemImage = document.createElement('img')
-				const image = 
-					*/			
+				console.log('item index == ', data.data.indexOf(item))				
+				div.classList.add('carousel__item','carousel__item--visible')
+			}else{
+				console.log('item index ==: ', data.data.indexOf(item) )
+				div.classList.add("carousel__item")
+			}
+				//setting an id attribute based on item index
+				div.setAttribute("id", data.data.indexOf(item));
+			
 				//create h3 elemnt for item name
 				const itemName = document.createElement('h3')
 				//get item name
 				const name = item.name
 				// set innertext of h3 element to item name
 				itemName.innerText = name
+			
+				//create h3 elemnt for item status
+				const itemStatus = document.createElement('h3')
+				//get item name
+				const status = itemInfo.status
+				// set innertext of h3 element to item name
+				itemStatus.innerText = `status: ${status}`
+			
+				//create ul elemnt for item sellerInfo
+				//get seller link to fetch
+				const sellerLink = itemInfo.seller
+				console.log('sellerInfo link: ', sellerLink)
+			
+				//fetching the sellerInfo
+				const sellerInfoJson = await fetch(sellerLink)
+				const sellerInfo = await sellerInfoJson.json()
+				console.log('sellerInfo: ', sellerInfo)
+			
+				const sellerName = sellerInfo.data.name
+				const sellerPhone = sellerInfo.data.phone
+				
+				//creating ul element for seller info
+				const seller = document.createElement('ol')
+				
+				//li element for seller name
+				const nameLi = document.createElement('li')
+				nameLi.innerText = `Seller Name:  ${sellerName} `
+			
+				//li element for seller phone
+				const phoneLi = document.createElement('li')
+				phoneLi.innerText = `Seller Phone No.  ${sellerPhone} `
+				
+				//creating line break
+				const br = document.createElement('br')
+				// appending ul element with li children
+				seller.appendChild(br)
+				seller.appendChild(nameLi)
+				seller.appendChild(br)
+				seller.appendChild(phoneLi)
 				
 				// apend the parent div element (class = carousel)with the div element creted previously
 				document.querySelector('div.carousel').appendChild(div)
-				// append div with child h3 element 
-				document.querySelector('div.carousel__item').appendChild(itemName)										
-				}
-			else{
-					console.log('item index ==1')
-					// create carousel item div
-					const div = document.createElement('div')					
-					div.classList.add("carousel__item")	
-					//create h3 elemnt for item name
-					const itemName = document.createElement('h3')
-					//get item name
-					const name = item.name
-					// set innertext of h3 element to item name
-					itemName.innerText = name	
-					// apend the parent div element (class = carousel)with the div element creted previously
-					document.querySelector('div.carousel').appendChild(div)
-					// append div with child h3 element 
-					document.querySelector('div.carousel__item:not(.carousel__item--visible)').appendChild(itemName)	
-				}				
-		}	
+			
+				// append div with child h3 elements (name and statsu)
+				document.querySelector(`#\\3${data.data.indexOf(item)}`).appendChild(itemName)
+				document.querySelector(`#\\3${data.data.indexOf(item)}`).appendChild(itemStatus)
+				document.querySelector(`#\\3${data.data.indexOf(item)}`).appendChild(seller)
+			
+				// checking if item has an image
+				if(itemInfo.imageLink){
+					// getting the image link
+					const imageLink = itemInfo.imageLink			
+					console.log('image link: ', imageLink)
+
+					// adujusting link to use https
+					var position = 4;
+					var imageLink2 = [imageLink.slice(0, position), 's', imageLink.slice(position)].join('');
+					console.log('image link with https:', imageLink2);					
+
+					//creating img element
+					var img = document.createElement('img'); 
+					img.src = imageLink2	
+
+					document.querySelector(`#\\3${data.data.indexOf(item)}`).appendChild(img)
+			}	
+		}
 		
 		//carousel navigation
 		document.

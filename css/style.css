@@ -163,6 +163,7 @@ main > section button {
   overflow: hidden;
   max-width: 600px;
   position: relative;
+	margin:auto
 }
 
 .carousel .carousel__item,
@@ -181,6 +182,8 @@ text-align: center;
   width: 100%;
   max-width: 600px;
   height: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .carousel .carousel__item--visible {
