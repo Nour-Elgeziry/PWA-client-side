@@ -22,14 +22,15 @@ jobs:
         run: ./node_modules/.bin/eslint .
   AvaUnitTest:
     runs-on: ubuntu-latest
-	steps:
-	  - uses: actions/checkout@v2
-	  - name: Use NodeJS
-	    uses: actions/setup-node@v1
-		with:
-		  node-version: 14.x
-	  - name: Install ava testing tool
-	    run: npm install
-	  - name: run the test
-	    run: npm test
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: Install ava testing tool
+        run: npm install
+      - name: run the test
+        run: npm test
+  
     
