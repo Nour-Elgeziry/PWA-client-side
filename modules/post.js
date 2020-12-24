@@ -1,6 +1,6 @@
 /* register.js */
 
-import { showMessage,getCookie } from '../js/core.js'
+import { getCookie } from '../js/core.js'
 const apiURL = 'https://jackson-relax-8080.codio-box.uk'
 export async function setup() {
 	console.log('Post Main script')
@@ -44,7 +44,7 @@ async function postItem(event) {
 		const options = { method: 'POST', body: formData, headers: {Authorization: cookie }  }
 		console.log('options',options)
 		//setting the fetch url
-		const postUrl = `${apiURL}/items/`	
+		const postUrl = `${apiURL}/v1/items/`	
 		console.log('fetch url', postUrl)		
 		const response = await fetch(postUrl,options)
 		window.location.href = '/#seller'

@@ -29,7 +29,7 @@ async function loadPage(cookie){
 	console.log('current sellerId is :', sellerId)
 	
 	// get all items by this seller 
-	const url = `${apiURL}/items/seller/${sellerId}/items`
+	const url = `${apiURL}/v1/items/seller/${sellerId}/items`
 	const json = await fetch(url)
 	const data = await json.json()
 	console.log('data recieved :', data.data.length)
@@ -261,7 +261,7 @@ async function updateStatus(id,value,cookie){
 	console.log('status value: ', value)
 	let stringify = JSON.stringify({status:value})
 	
-	const putUrl = `${apiURL}/items/status/${id}`
+	const putUrl = `${apiURL}/v1/items/status/${id}`
 	console.log('sent url: ', putUrl)
 	const options = {method: 'PUT',body: stringify ,headers: { 'Content-Type': 'application/json',Authorization: cookie } }
 	console.log('options = : ', options)
@@ -272,7 +272,7 @@ async function updateStatus(id,value,cookie){
 
  async function deleteItem(id,cookie){
 	console.log('inside delete item function and recived item id is : ', id)
-	const deletUrl = `${apiURL}/items/${id}`
+	const deletUrl = `${apiURL}/v1/items/${id}`
 	const options = {method: 'DELETE' ,headers: {Authorization: cookie } }
 	const deleteFetch = await fetch(deletUrl,options)
 	const data = await deleteFetch.json()

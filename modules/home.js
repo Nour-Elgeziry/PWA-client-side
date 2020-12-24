@@ -13,7 +13,7 @@ export async function setup() {
 		//calling checkShow seller function to decide if seller page should be visible
 		checkShowSeller()
 		
-		const url = `${apiURL}/items/`
+		const url = `${apiURL}/v1/items/`
 		const json = await fetch(url)
 		const data = await json.json()		
 		console.log("number of items = ", data.data.length)
