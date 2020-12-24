@@ -29,6 +29,7 @@ async function loadPage() {
 		console.log(typeof location.hash)
 		const pageName = location.hash ? location.hash.replace('#', '') : 'home'
 		console.log('location updated')
+		console.log('page Name', pageName)
 		// load the html page that matches the fragment and inject into the page DOM
 		document.querySelector('main').innerHTML = await (await fetch(`./views/${pageName}.html`)).text()
 		document.querySelector('h1').innerText = pageName

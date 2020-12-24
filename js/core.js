@@ -1,16 +1,23 @@
 
 /* core.js */
 
+
 export function generateToken(user, pass) {
 	const token = `${user}:${pass}`
 	const hash = btoa(token)
 	return `Basic ${hash}`
 }
 
+export function decodeToken(token){
+	const decodedToken = atob(token)
+	return decodeToken
+}
+
 export async function login() {
 	if(!getCookie('authorization')) throw new Error('cookie not found')
 	const options = { headers: { Authorization: getCookie('authorization') } }
 	const response = await fetch('/login',options)
+	console.log('corejs login function response', response)
 	const status = response.status
 	console.log(`HTTP status code: ${status}`)
 	if(response.status === 401)  throw new Error('status 401 NOT AUTHORIZED')

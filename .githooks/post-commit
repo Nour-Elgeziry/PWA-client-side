@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e # abort script at first error
+echo "Post-COMMIT"
+
+echo "git alias is "
+git alias 
+echo "----pushing------"
+sudo git pushall # using the pushall alias to push to all remote repos
+

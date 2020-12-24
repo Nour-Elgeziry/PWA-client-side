@@ -7,15 +7,16 @@ const apiURL = 'https://jackson-relax-8080.codio-box.uk'
 const slides = document.getElementsByClassName('carousel__item')
 let slidePosition = 0
 
-
 export async function setup() {
 	try {
 		console.log('MAIN SCRIPT')
+		//calling checkShow seller function to decide if seller page should be visible
+		checkShowSeller()
+		
 		const url = `${apiURL}/items/`
 		const json = await fetch(url)
 		const data = await json.json()		
 		console.log("number of items = ", data.data.length)
-		
 		
 		for(let item of data.data){
 		
@@ -49,7 +50,7 @@ export async function setup() {
 			
 				//create h3 elemnt for item status
 				const itemStatus = document.createElement('h3')
-				//get item name
+				//get item status
 				const status = itemInfo.status
 				// set innertext of h3 element to item name
 				itemStatus.innerText = `status: ${status}`
@@ -133,26 +134,50 @@ export async function setup() {
 	}
 }
 
+function checkShowSeller(){
+	console.log('inside checkShowSeller function')
+	// check if user is logged in to view sellerpage in menu
+		if(getCookie('authorization') && !document.querySelector('#seller') ) {
+			console.log('authorised')
+			// create li element and add seller id
+			const navLi = document.createElement('li')
+			navLi.setAttribute("id",'seller')
+			//create a element and add refrence to seller page
+			const navA = document.createElement('a')
+			navA.setAttribute("href",'#seller')
+			navA.innerText = 'Seller'
+			//append navigation ul(index.hrml) with li element created
+			document.querySelector("#navUl").appendChild(navLi)	
+			//append li element with the a element created
+			navLi.appendChild(navA)
+	}else if (!getCookie('authorization') && document.querySelector('#seller')){
+		const seller = document.querySelector('#seller')
+		seller.parentNode.removeChild(seller);
+	}
+	
+}
 
 
 function moveToNextSlide() {
+	console.log('current slide position: ', slidePosition)
 	const totalSlides = slides.length
 	console.log('total slides', totalSlides)
-  if (slidePosition === totalSlides - 1) {
-    slidePosition = 0;
+	if (slidePosition === totalSlides - 1) {
+		slidePosition = 0;
   } else {
-    slidePosition++;
+		slidePosition++;
   }
 
   updateSlidePosition();
 }
 
 function moveToPrevSlide() {
+	console.log('current slide position: ', slidePosition)
 	const totalSlides = slides.length
-  if (slidePosition === 0) {
-    slidePosition = totalSlides - 1;
+	if (slidePosition === 0) {	
+		slidePosition = totalSlides - 1;
   } else {
-    slidePosition--;
+		slidePosition--;
   }
 
   updateSlidePosition();
@@ -163,6 +188,7 @@ function updateSlidePosition() {
     slide.classList.remove('carousel__item--visible');
     slide.classList.add('carousel__item--hidden');
   }
-	console.log('slides[slidePosition]', slides[slidePosition])
+	const currentSlide = slides[slidePosition]
+	console.log('slides[slidePosition]', currentSlide)
   slides[slidePosition].classList.add('carousel__item--visible');
 }
