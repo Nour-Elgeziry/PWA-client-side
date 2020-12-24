@@ -1,6 +1,6 @@
 # .github/workflows/single-stage.yml
 
-name: Main Action 
+name: running linter
 
 on:
   push:
@@ -20,5 +20,3 @@ jobs:
         run: npm install
       - name: run the linter
         run: ./node_modules/.bin/eslint .
-  
-    
