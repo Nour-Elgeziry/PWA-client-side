@@ -35,7 +35,7 @@ async function loadPage(cookie){
 	console.log('data recieved :', data.data.length)
 	
 	// ---CREATING ADD POST BUTTON
-	//creating div element for deletebutoon
+	//creating div element for postbutoon
 	const postButtonDiv = document.createElement('div')
 	postButtonDiv.setAttribute('id','postButton')
 	//creating button element

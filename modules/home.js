@@ -13,20 +13,19 @@ export async function setup() {
 		//calling checkShow seller function to decide if seller page should be visible
 		checkShowSeller()
 		
-		const url = `${apiURL}/v1/items/`
+		const url = `${apiURL}/v2/items/`
 		const json = await fetch(url)
 		const data = await json.json()		
 		console.log("number of items = ", data.data.length)
 		
-		for(let item of data.data){
-		
+		for(let item of data.data){		
 			//fetch eact item info
 			const itemUrl = `${item.ItemDetail}`
 			const itemJson = await fetch(itemUrl)
 			const itemData = await itemJson.json()
 			
 			const itemInfo = itemData.data
-			console.log('item info: ', itemInfo)
+			console.log('item info ', itemInfo)
 				
 			// create carousel item div
 			const div = document.createElement('div')
@@ -38,100 +37,125 @@ export async function setup() {
 				console.log('item index ==: ', data.data.indexOf(item) )
 				div.classList.add("carousel__item")
 			}
-				//setting an id attribute based on item index
-				div.setAttribute("id", data.data.indexOf(item));
 			
-				//create h3 elemnt for item name
-				const itemName = document.createElement('h3')
-				//get item name
-				const name = item.name
-				// set innertext of h3 element to item name
-				itemName.innerText = name
-			
-				//create h3 elemnt for item status
-				const itemStatus = document.createElement('h3')
-				//get item status
-				const status = itemInfo.status
-				// set innertext of h3 element to item name
-				itemStatus.innerText = `status: ${status}`
-			
-				//create ul elemnt for item sellerInfo
-				//get seller link to fetch
-				const sellerLink = itemInfo.seller
-				console.log('sellerInfo link: ', sellerLink)
-			
-				//fetching the sellerInfo
-				const sellerInfoJson = await fetch(sellerLink)
-				const sellerInfo = await sellerInfoJson.json()
-				console.log('sellerInfo: ', sellerInfo)
-			
-				const sellerName = sellerInfo.data.name
-				const sellerPhone = sellerInfo.data.phone
-				
-				//creating ul element for seller info
-				const seller = document.createElement('ol')
-				
-				//li element for seller name
-				const nameLi = document.createElement('li')
-				nameLi.innerText = `Seller Name:  ${sellerName} `
-			
-				//li element for seller phone
-				const phoneLi = document.createElement('li')
-				phoneLi.innerText = `Seller Phone No.  ${sellerPhone} `
-				
-				//creating line break
-				const br = document.createElement('br')
-				// appending ul element with li children
-				seller.appendChild(br)
-				seller.appendChild(nameLi)
-				seller.appendChild(br)
-				seller.appendChild(phoneLi)
-				
-				// apend the parent div element (class = carousel)with the div element creted previously
-				document.querySelector('div.carousel').appendChild(div)
-			
-				// append div with child h3 elements (name and statsu)
-				document.querySelector(`#\\3${data.data.indexOf(item)}`).appendChild(itemName)
-				document.querySelector(`#\\3${data.data.indexOf(item)}`).appendChild(itemStatus)
-				document.querySelector(`#\\3${data.data.indexOf(item)}`).appendChild(seller)
-			
-				// checking if item has an image
-				if(itemInfo.imageLink){
-					// getting the image link
-					const imageLink = itemInfo.imageLink			
-					console.log('image link: ', imageLink)
+			//setting an id attribute based on item index
+			div.setAttribute("id", data.data.indexOf(item));
 
-					// adujusting link to use https
-					var position = 4;
-					var imageLink2 = [imageLink.slice(0, position), 's', imageLink.slice(position)].join('');
-					console.log('image link with https:', imageLink2);					
+			//create h3 elemnt for item name
+			const itemName = document.createElement('h3')
+			//get item name
+			const name = item.name
+			// set innertext of h3 element to item name
+			itemName.innerText = name
+			//adding eventlistener
+			itemName.addEventListener("click", function() {
+				console.log('inside the item name event listener')
+				sessionStorage.setItem('itemId', itemInfo.id)
+				window.location.href = '/#productDetails'
+			  })
 
-					//creating img element
-					var img = document.createElement('img'); 
-					img.src = imageLink2	
+			//create h3 elemnt for item status
+			const itemStatus = document.createElement('h3')
+			//get item status
+			const status = itemInfo.status
+			// set innertext of h3 element to item name
+			itemStatus.innerText = `status: ${status}`
+			//adding eventlistener
+			itemStatus.addEventListener("click", function() {
+				console.log('inside the item status event listener')
+				sessionStorage.setItem('itemId', itemInfo.id)
+				window.location.href = '/#productDetails'
+			  })
 
-					document.querySelector(`#\\3${data.data.indexOf(item)}`).appendChild(img)
-			}	
-		}
-		
-		//carousel navigation
-		document.
-		  getElementById('carousel__button--next')
-		  .addEventListener("click", function() {
-			moveToNextSlide();
-		  }); 
-		document.
-		  getElementById('carousel__button--prev')
-		  .addEventListener("click", function() {
-			moveToPrevSlide();
-		  });
-		
-		// displaying item name 	
-		document.querySelector('main h3').innerText = data.data[0].name
-	} catch(err) {
-		console.log(err)
-		//window.location.href = '/#login'
+			/*create ul elemnt for item sellerInfo
+			//get seller link to fetch
+			const sellerLink = itemInfo.seller
+			console.log('sellerInfo link: ', sellerLink)
+
+			//fetching the sellerInfo
+			const sellerInfoJson = await fetch(sellerLink)
+			const sellerInfo = await sellerInfoJson.json()
+			console.log('sellerInfo: ', sellerInfo)
+
+			const sellerName = sellerInfo.data.name
+			const sellerPhone = sellerInfo.data.phone     SELLER PART IS REMOVED IN VERSION 2 (STAGE 2)
+
+			//creating ul element for seller info
+			const seller = document.createElement('ol')
+
+			//li element for seller name
+			const nameLi = document.createElement('li')
+			nameLi.innerText = `Seller Name:  ${sellerName} `
+
+			//li element for seller phone
+			const phoneLi = document.createElement('li')
+			phoneLi.innerText = `Seller Phone No.  ${sellerPhone} `
+
+			//creating line break
+			const br = document.createElement('br')
+			// appending ul element with li children
+			seller.appendChild(br)
+			seller.appendChild(nameLi)
+			seller.appendChild(br)
+			seller.appendChild(phoneLi)
+			*/
+			// apend the parent div element (class = carousel)with the div element creted previously
+			document.querySelector('div.carousel').appendChild(div)
+
+			// append div with child h3 elements (name and statsu)
+			document.querySelector(`#\\3${data.data.indexOf(item)}`).appendChild(itemName)
+			document.querySelector(`#\\3${data.data.indexOf(item)}`).appendChild(itemStatus)
+			//document.querySelector(`#\\3${data.data.indexOf(item)}`).appendChild(seller) //seller removed in version2
+
+			// checking if item has an image
+			if(itemInfo.imageLink){				
+				// getting the image link
+				const imageLink = itemInfo.imageLink[0]			
+				console.log('image link: ', imageLink)
+
+				// adujusting link to use https
+				var position = 4;
+				var imageLink2 = [imageLink.slice(0, position), 's', imageLink.slice(position)].join('');
+				console.log('image link with https:', imageLink2);					
+
+				//creating img element
+				var img = document.createElement('img'); 
+				img.src = imageLink2
+				
+				//adding eventlistener
+				img.addEventListener("click", function() {
+					console.log('inside the item image event listener')
+					sessionStorage.setItem('itemId', itemInfo.id)
+					window.location.href = '/#productDetails'
+			  })
+
+				document.querySelector(`#\\3${data.data.indexOf(item)}`).appendChild(img)
+		}	
 	}
+
+	//carousel navigation
+	document.
+	  getElementById('carousel__button--next')
+	  .addEventListener("click", function() {
+		moveToNextSlide();
+	  }); 
+	document.
+	  getElementById('carousel__button--prev')
+	  .addEventListener("click", function() {
+		moveToPrevSlide();
+	  });
+
+	// displaying item name 	
+	document.querySelector('main h3').innerText = data.data[0].name
+} catch(err) {
+	console.log(err)
+	//window.location.href = '/#login'
+}
+}
+
+//item name event listenr
+function itemNameClicked(){
+	console.log('inside itemNameClicked function')
 }
 
 function checkShowSeller(){

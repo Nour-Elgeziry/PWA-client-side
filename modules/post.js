@@ -19,11 +19,14 @@ async function postItem(event) {
 		
 		//adding form elements name and value to data object
 		const elements = [...document.forms['post'].elements]
+		
 		//initializing formdata and appending it with form values
 		const formData = new FormData()
 		elements.forEach( el => { 
-			if(el.name =='photo'){				
-				formData.append(el.name,el.files[0])
+			if(el.name =='photo'){
+				Array.from(el.files).forEach(file => { 					
+					formData.append(el.name,file)
+					 })				
 			} else if(el.name){
 				formData.append(el.name,el.value)
 			}
@@ -38,13 +41,14 @@ async function postItem(event) {
 		for (let pair of formData.entries()) {
 			console.log('the values', pair[0]+ ', ' + pair[1]) 
 		}
+	
 	 
 		
 		//initializing headers , methods and body
 		const options = { method: 'POST', body: formData, headers: {Authorization: cookie }  }
 		console.log('options',options)
 		//setting the fetch url
-		const postUrl = `${apiURL}/v1/items/`	
+		const postUrl = `${apiURL}/v2/items/`	
 		console.log('fetch url', postUrl)		
 		const response = await fetch(postUrl,options)
 		window.location.href = '/#seller'
