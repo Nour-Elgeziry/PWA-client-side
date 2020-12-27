@@ -6,22 +6,14 @@ let slidePosition = 0
 
 export function setup() {
 	console.log('MAIN SCRIPT of product details')
-	const cookie = getCookie('authorization')	
-	console.log('the cookie : ', cookie )
-
-	if(getCookie('authorization')) {
-		console.log('authorised')
-		loadPage(cookie)		
-	}else{window.location.href = '/#login'}
+	checkShowContactSeller()
 		
-}
+	loadPage()		
+}	
 
-async function loadPage(cookie){	
+async function loadPage(){	
 	console.log('Inside loadPage function')
-	// get username and sellerid
-	const [username,sellerId] = await getCurrentUser(cookie)
-	console.log('current Username is :', username)
-	console.log('current sellerId is :', sellerId)
+	
 	//geting item id stored in session storage
 	const itemId = sessionStorage.getItem('itemId')
 	console.log('recieved item id',itemId)
@@ -63,7 +55,7 @@ async function loadPage(cookie){
 				// creating div element for item image
 				itemImageDiv.classList.add("carousel__item")				
 			}			
-			// adujusting link to use https
+			//adujusting link to use https
 			var position = 4
 			var imageLink2 = [image.slice(0, position), 's', image.slice(position)].join('')
 			console.log('image link with https:', imageLink2)
@@ -82,12 +74,12 @@ async function loadPage(cookie){
 	}else{
 		// adujusting link to use https
 		var position = 4;
-		var imageLink2 = [imageLink.slice(0, position), 's', imageLink.slice(position)].join('')
+		var imageLink2 = [imageLink[0].slice(0, position), 's', imageLink[0].slice(position)].join('')
 		console.log('image link with https:', imageLink2)		
 		// --- Creating Image ---
 		// creating div element for item image
 		const itemImageDiv = document.createElement('div')
-		itemImageDiv.classList.add('itemImage')
+		itemImageDiv.classList.add('itemImage', 'carousel__item','carousel__item--visible')
 		//creating img element
 		var img = document.createElement('img')
 		img.src = imageLink2	
@@ -97,22 +89,63 @@ async function loadPage(cookie){
 		//appending image element to the parent div
 		itemImageDiv.appendChild(img)
 		//appending main div with the itemImageDiv
-		document.querySelector('div.productDetails').appendChild(itemImageDiv)		
+		document.querySelector('div.carousel').appendChild(itemImageDiv)		
 	}
 		
 	// creating div element for item description
-	const itemdDescriptionDiv = document.createElement('div')
-	itemdDescriptionDiv.classList.add('itemdDescription')
+	const itemDescriptionDiv = document.createElement('div')
+	itemDescriptionDiv.classList.add('itemDescription')
 	//create h3 elemnt for item description
-	const itemdDescription = document.createElement('h3')
+	const itemDescription = document.createElement('h3')
 	//get item description from databse
 	const description = item.description
 	// set innertext of h3 element to item description
-	itemdDescription.innerText = `Description : ${description}`
+	itemDescription.innerText = `Description : ${description}`
 	//append itemdDescription with the h3 child
-	itemdDescriptionDiv.appendChild(itemdDescription)
+	itemDescriptionDiv.appendChild(itemDescription)
 	//appending main div with the itemNameDiv
-	document.querySelector('div.productDetails').appendChild(itemdDescriptionDiv)
+	document.querySelector('div.productDetails').appendChild(itemDescriptionDiv)
+	
+	// getting the question link
+	const questions = item.questions			
+	console.log('questions length: ', questions.length)
+	if (questions.length > 1){
+		for(const question of questions){
+			console.log('question: ', question)
+			
+			
+			// --- Creating question ---
+
+			// creating div element for item question
+			const questionDiv = document.createElement('div')
+			questionDiv.classList.add('itemdQuestion')
+			//create label elemnt for item Question
+			const itemdQuestion = document.createElement('label')
+			
+			// set innertext of label element to item question
+			itemdQuestion.innerText = question
+			//append itemdDescription with the h3 child
+			questionDiv.appendChild(itemdQuestion)
+			//appending main div with the itemNameDiv
+			document.querySelector('div.productDetails').appendChild(questionDiv)
+			
+		}
+	}else{
+		// --- Creating question ---
+
+		// creating div element for item question
+		const questionDiv = document.createElement('div')
+		questionDiv.classList.add('itemdQuestion')
+		//create label elemnt for item Question
+		const itemdQuestion = document.createElement('label')
+
+		// set innertext of label element to item question
+		itemdQuestion.innerText = `Question: ${questions[0].question}`
+		//append itemdQuestionDiv with the label child
+		questionDiv.appendChild(itemdQuestion)
+		//appending main div with the itemQuestion
+		document.querySelector('div.productDetails').appendChild(questionDiv)	
+	}
 	
 	
 	//carousel navigation
@@ -131,31 +164,30 @@ async function loadPage(cookie){
 	
 }
 
-//function to get the current logged in user username and sellerid
-async function getCurrentUser(cookie){
-	console.log('Inside getCurrentUser function')
-	try{
-		console.log('the cookie inside the loadpage', cookie)
-		
-		const url = `${apiURL}/accounts/useraccount/currentuser`
-		const options = {headers: { Authorization: cookie } }
-
-		const response = await fetch(url,options)
-		console.log('the response :', response)
-		
-		const data = await response.json()						
-		console.log('the username is :', data.username)
-		console.log('the sellerId is :', data.sellerId)
+//
+function checkShowContactSeller(){
+	console.log('inside checkShowContactSeller function')
+	// check if user is logged in to view sellerpage in menu
+		if(getCookie('authorization') && !document.querySelector('#contactSeller') ) {
+			console.log('authorised')
+			// create btn element and add contactSeller id
+			const contactSellerBtn = document.createElement('button')
+			contactSellerBtn.setAttribute("id",'contactSeller')
+			contactSellerBtn.innerText = 'Contact Seller'
+			//adding element to html
+			document.querySelector('div.productDetails').appendChild(contactSellerBtn)
+			//event listener
+			document.getElementById('contactSeller').addEventListener("click", function() {				
+				window.location.href = '/#contactSeller'
+	  })
+			
+	}else if (!getCookie('authorization') && document.querySelector('#contactSeller')){
+		const contactSellerBtn = document.querySelector('#contactSeller')
+		contactSellerBtn.parentNode.removeChild(contactSellerBtn);
+	}
 	
-		if(response.status === 401) throw new Error(json.msg)
-		if(response.status === 200) {
-			console.log('success')
-			return [data.username , data.sellerId]
-		}
-	}catch(err) {
-		showMessage(err.message)
-	}	
 }
+
 
 function moveToNextSlide() {
 	console.log('current slide position: ', slidePosition)

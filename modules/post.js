@@ -3,9 +3,11 @@
 import { getCookie } from '../js/core.js'
 const apiURL = 'https://jackson-relax-8080.codio-box.uk'
 export async function setup() {
-	console.log('Post Main script')
-	document.querySelector('h1').innerText = 'Post a New Item'
-	document.querySelector('form').addEventListener('submit', await postItem)
+		console.log('User Authorized')
+		console.log('Post Main script')
+		document.querySelector('h1').innerText = 'Post a New Item'
+		document.querySelector('form').addEventListener('submit', await postItem)			
+	
 }
 
 async function postItem(event) {
@@ -50,11 +52,11 @@ async function postItem(event) {
 		//setting the fetch url
 		const postUrl = `${apiURL}/v2/items/`	
 		console.log('fetch url', postUrl)		
-		const response = await fetch(postUrl,options)
-		window.location.href = '/#seller'
+		const response = await fetch(postUrl,options)		
 		const json = await response.json()
 		console.log('response', json)
 		if(response.status === 422) throw new Error(`422 Unprocessable Entity: ${json.msg}`)
+		window.location.href = '/#seller'
 		
 		
 	} catch(err) {

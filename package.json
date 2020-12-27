@@ -8,14 +8,16 @@
     "node": "14.x"
   },
   "dependencies": {
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
+    "@sendgrid/mail": "^7.4.0",
     "fs-extra": "^9.0.1",
     "handlebars": "^4.7.6",
     "koa": "^2.13.0",
     "koa-router": "^9.4.0",
     "koa-static": "^5.0.0",
-    "koa-views": "^6.3.1"
+    "koa-views": "^6.3.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "sendgrid": "^5.2.3"
   },
   "devDependencies": {
     "eslint": "^7.15.0"

@@ -18,7 +18,10 @@ export async function setup() {
 		const data = await json.json()		
 		console.log("number of items = ", data.data.length)
 		
-		for(let item of data.data){		
+		// checking if there are items posted
+		if (data.data.length !== 0){
+			
+			for(let item of data.data){		
 			//fetch eact item info
 			const itemUrl = `${item.ItemDetail}`
 			const itemJson = await fetch(itemUrl)
@@ -132,21 +135,27 @@ export async function setup() {
 				document.querySelector(`#\\3${data.data.indexOf(item)}`).appendChild(img)
 		}	
 	}
-
-	//carousel navigation
-	document.
-	  getElementById('carousel__button--next')
-	  .addEventListener("click", function() {
-		moveToNextSlide();
-	  }); 
-	document.
-	  getElementById('carousel__button--prev')
-	  .addEventListener("click", function() {
-		moveToPrevSlide();
-	  });
-
-	// displaying item name 	
-	document.querySelector('main h3').innerText = data.data[0].name
+			
+			//carousel navigation
+			document.
+			  getElementById('carousel__button--next')
+			  .addEventListener("click", function() {
+				moveToNextSlide()
+			  }) 
+			document.
+			  getElementById('carousel__button--prev')
+			  .addEventListener("click", function() {
+				moveToPrevSlide()
+			  })			
+		}else {			
+			const actions = document.querySelector('div.carousel__actions').style.display = "none"
+			console.log('actions class',actions)
+		
+			const title = document.createElement('h2')
+			title.innerText = 'No items available'
+			document.querySelector('div.carousel').appendChild(title)
+		}
+		
 } catch(err) {
 	console.log(err)
 	//window.location.href = '/#login'
