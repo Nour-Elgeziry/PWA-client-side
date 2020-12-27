@@ -3,8 +3,7 @@ const apiURL = 'https://jackson-relax-8080.codio-box.uk'
 //import sgMail from '@sendgrid/mail' 
 
 export function setup() {
-	console.log('MAIN SCRIPT of Contact Seller details')
-		
+	console.log('MAIN SCRIPT of Contact Seller details')		
 	loadPage()		
 }	
 
