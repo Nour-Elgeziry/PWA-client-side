@@ -6,12 +6,12 @@ export async function setup() {
 		console.log('User Authorized')
 		console.log('Post Main script')
 		document.querySelector('h1').innerText = 'Post a New Item'
-		document.querySelector('form').addEventListener('submit', await postItem(event))			
+		document.querySelector('form').addEventListener('submit', await postItem())			
 	
 }
 
-async function postItem(event) {
-	event.preventDefault()
+async function postItem() {
+	
 	try {
 		// geting cookie 
 		const cookie = getCookie('authorization')
@@ -56,7 +56,7 @@ async function postItem(event) {
 		const json = await response.json()
 		console.log('response', json)
 		if(response.status === 422) throw new Error(`422 Unprocessable Entity: ${json.msg}`)
-		window.location.href = '/#seller'
+		//window.location.href = '/#seller'
 		
 		
 	} catch(err) {

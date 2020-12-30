@@ -114,6 +114,7 @@ async function loadPage(){
 		console.log('user logged in')
 		//check if user is product owner
 		const cookie = getCookie('authorization')
+		console.log('the cookie: ', cookie)
 		const [username,userSellerId] = await getCurrentUser(cookie)
 		if(userSellerId == item.seller){
 			console.log('user is the seller')
@@ -432,7 +433,7 @@ function updateSlidePosition() {
 async function getCurrentUser(cookie){
 	console.log('Inside getCurrentUser function')
 	try{
-		console.log('the cookie inside the loadpage', cookie)
+		console.log('the cookie inside the getcurrenUser', cookie)
 		
 		const url = `${apiURL}/accounts/useraccount/currentuser`
 		const options = {headers: { Authorization: cookie } }
