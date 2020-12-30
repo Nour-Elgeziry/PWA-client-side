@@ -6,7 +6,7 @@ export async function setup() {
 		console.log('User Authorized')
 		console.log('Post Main script')
 		document.querySelector('h1').innerText = 'Post a New Item'
-		document.querySelector('form').addEventListener('submit', await postItem)			
+		document.querySelector('form').addEventListener('submit', await postItem(event))			
 	
 }
 

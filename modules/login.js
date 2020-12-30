@@ -1,6 +1,6 @@
 /* login.js */
 
-import { generateToken, getCookie, setCookie, showMessage, getLocation } from '../js/core.js'
+import { generateToken, getCookie, setCookie, showMessage, getLocation,login } from '../js/core.js'
 const apiURL = 'https://jackson-relax-8080.codio-box.uk'
 
 export function setup() {
@@ -14,23 +14,30 @@ export function setup() {
 		seller.parentNode.removeChild(seller);
 	}
 	document.querySelector('h1').innerText = 'Log In'
-	document.querySelector('form').addEventListener('submit', async event => await login(event))
+	document.querySelector('form').addEventListener('submit', async event => await userLogin(event))
 }
 
-async function login() {
+async function userLogin(event) {
+	event.preventDefault()
 	try {
 		event.preventDefault()
 		console.log('inside login function')
+		//getting username and password values
 		const elements = [...document.forms['login'].elements]
+		
+		//initializing empty object to store values in
 		const data = {}
 		elements.forEach( el => {
 			if(el.name) data[el.name] = el.value
 		})
-		
+		// generating a token (base64 encryption)
 		const token = generateToken(data.user, data.pass)
-		console.log(token)
-		const url = `${apiURL}/accounts/${data.user}`
-		const options = {headers: { Authorization: token } }
+		console.log('generated token :',token)
+		
+		//setting the fetch url with the auth header containing the token	
+		const url = `${apiURL}/accounts/login/${data.user}`
+		const options = { headers: {Authorization: token }  }
+		console.log('the request header', options)
 		
 		const response = await fetch(url,options)
 		const json = await response.json()

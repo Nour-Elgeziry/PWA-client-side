@@ -1,6 +1,7 @@
 
 {
   "preview": {
-        "Heroku": "https://{{domain5000}}/{{index}}"
+        "Heroku": "https://{{domain5000}}/{{index}}",
+		 "Project Index (static)": "https://{{domain}}/{{index}}"
   }
 }

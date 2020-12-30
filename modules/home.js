@@ -53,8 +53,30 @@ export async function setup() {
 			//adding eventlistener
 			itemName.addEventListener("click", function() {
 				console.log('inside the item name event listener')
+				
+				var f = document.createElement("form");
+				f.setAttribute('method',"GET")
+				f.setAttribute('action',"/#productDetails") 
+				f.setAttribute('id',"pd")
+
+				var i = document.createElement("input"); //input element, text
+				i.setAttribute('type',"text");
+				i.setAttribute('name',`${itemInfo.id}`);
+
+				var s = document.createElement("input"); //input element, Submit button
+				s.setAttribute('type',"submit");
+				s.setAttribute('value',"Submit");
+
+				f.appendChild(i);
+				f.appendChild(s);
+				document.querySelector(`#\\3${data.data.indexOf(item)}`).appendChild(f)
+				document.getElementById("pd").style.display="none";
 				sessionStorage.setItem('itemId', itemInfo.id)
-				window.location.href = '/#productDetails'
+				document.getElementById("pd").submit();
+				
+				
+				
+				
 			  })
 
 			//create h3 elemnt for item status

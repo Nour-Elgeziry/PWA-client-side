@@ -47,12 +47,8 @@ async function postQuestion(event) {
 		console.log('response', json.email)
 		if(response.status === 422) throw new Error(`422 Unprocessable Entity: ${json.msg}`)
 		
-		
-		
-		
-		
-		
-		//window.location.href = '/#productDetails'
+
+		window.location.href = '/#'
 		}catch(err){
 			console.log(err)
 		}

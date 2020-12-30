@@ -1,6 +1,6 @@
 
 /* core.js */
-
+const apiURL = 'https://jackson-relax-8080.codio-box.uk'
 
 export function generateToken(user, pass) {
 	const token = `${user}:${pass}`
@@ -16,12 +16,13 @@ export function decodeToken(token){
 export async function login() {
 	if(!getCookie('authorization')) throw new Error('cookie not found')
 	const options = { headers: { Authorization: getCookie('authorization') } }
-	const response = await fetch('/login',options)
+	const response = await fetch(`${apiURL}/login`,options)
 	console.log('corejs login function response', response)
 	const status = response.status
 	console.log(`HTTP status code: ${status}`)
 	if(response.status === 401)  throw new Error('status 401 NOT AUTHORIZED')
 }
+
 
 // from plainjs.com
 export function setCookie(name, value, days) {

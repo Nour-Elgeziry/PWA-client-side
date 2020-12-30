@@ -6,20 +6,21 @@ let slidePosition = 0
 
 export function setup() {
 	console.log('MAIN SCRIPT of product details')
-	checkShowContactSeller()
 		
 	loadPage()		
 }	
 
 async function loadPage(){	
 	console.log('Inside loadPage function')
-	
+		
 	//geting item id stored in session storage
-	const itemId = sessionStorage.getItem('itemId')
+	const itemId = window.location.search.substring(1, window.location.search.length-1)
 	console.log('recieved item id',itemId)
 	
 	//fetching the api for item info
 	const url = `${apiURL}/v2/items/${itemId}`
+	
+	
 	const json = await fetch(url)
 	const data = await json.json()
 	const item = data.data
@@ -96,7 +97,7 @@ async function loadPage(){
 	const itemDescriptionDiv = document.createElement('div')
 	itemDescriptionDiv.classList.add('itemDescription')
 	//create h3 elemnt for item description
-	const itemDescription = document.createElement('h3')
+	const itemDescription = document.createElement('h4')
 	//get item description from databse
 	const description = item.description
 	// set innertext of h3 element to item description
@@ -106,47 +107,269 @@ async function loadPage(){
 	//appending main div with the itemNameDiv
 	document.querySelector('div.productDetails').appendChild(itemDescriptionDiv)
 	
-	// getting the question link
-	const questions = item.questions			
-	console.log('questions length: ', questions.length)
-	if (questions.length > 1){
-		for(const question of questions){
-			console.log('question: ', question)
-			
-			
-			// --- Creating question ---
+	
+	
+	//check if logged in 
+	if(getCookie('authorization')){
+		console.log('user logged in')
+		//check if user is product owner
+		const cookie = getCookie('authorization')
+		const [username,userSellerId] = await getCurrentUser(cookie)
+		if(userSellerId == item.seller){
+			console.log('user is the seller')
+			//show question and under each one have an input text area element to answer
+			//checking if there are questions
+			if(item.questions){	
+				console.log('questions are present:', item.questions)
+				// getting the question link
+				const questions = item.questions			
+				console.log('questions length: ', questions.length)
+				// loop through questions
+				for(const question of questions){
+					console.log('question: ', question)
+					//check if question is anwered
+					if(question.isanswered){
+						console.log('question is answered')
+						//show question and answer as label
+						// --- Creating question ---
 
-			// creating div element for item question
-			const questionDiv = document.createElement('div')
-			questionDiv.classList.add('itemdQuestion')
-			//create label elemnt for item Question
-			const itemdQuestion = document.createElement('label')
-			
-			// set innertext of label element to item question
-			itemdQuestion.innerText = question
-			//append itemdDescription with the h3 child
-			questionDiv.appendChild(itemdQuestion)
-			//appending main div with the itemNameDiv
-			document.querySelector('div.productDetails').appendChild(questionDiv)
-			
+						// creating div element for item question
+						const questionDiv = document.createElement('div')
+						questionDiv.classList.add('itemdQuestion')
+						//create label elemnt for item Question
+						const itemdQuestion = document.createElement('h5')
+
+						// set innertext of label element to item question
+						itemdQuestion.innerText = ` Q: ${question.question}`
+						//append itemdDescription with the h3 child
+						questionDiv.appendChild(itemdQuestion)
+						//appending main div with the itemNameDiv
+						document.querySelector('div.productDetails').appendChild(questionDiv)
+
+						// --- CREATING ANSwER ---
+						// creating div element for item  answer
+						const answerDiv = document.createElement('div')
+						answerDiv.classList.add('answer')
+						//create h3 elemnt for item name
+						const itemAnswer = document.createElement('h5')
+						//get item name from databse
+						const answer = question.answer
+						// set innertext of h3 element to item name
+						itemAnswer.innerText = `Answer : ${answer}`
+						//append questionDiv with the h5 child
+						questionDiv.appendChild(itemAnswer)
+						//creating line break
+						const lineBreak = document.createElement('br')
+						questionDiv.appendChild(lineBreak)
+						
+						
+
+					}else{
+						console.log('question is not answered')
+						//show question with input text area to answer the question
+						// --- Creating question ---
+
+						// creating div element for item question
+						const questionDiv = document.createElement('div')
+						questionDiv.classList.add('itemdQuestion')
+						//create label elemnt for item Question
+						const itemdQuestion = document.createElement('h5')
+
+						// set innertext of label element to item question
+						itemdQuestion.innerText = ` Q: ${question.question}`
+						//append itemdDescription with the h3 child
+						questionDiv.appendChild(itemdQuestion)
+						//appending main div with the itemNameDiv
+						document.querySelector('div.productDetails').appendChild(questionDiv)
+
+						// --- CREATING ANSWER ---
+						// creating div element for item  answer
+						const answerDiv = document.createElement('div')
+						answerDiv.classList.add('answer')
+						//create h3 elemnt for item name
+						const itemAnswer = document.createElement('textarea')
+						itemAnswer.setAttribute('id',"answerTextarea")
+						itemAnswer.name = "answer"
+						
+						//create button to submit answer
+						const button = document.createElement("input")
+						button.setAttribute('type',"button")
+						button.setAttribute('id',"submitButton")
+						button.innerText = "Submit"
+						
+						//appending main div with the answerDiv
+						document.querySelector('div.productDetails').appendChild(answerDiv)
+						
+						// append tect area and button inside answer div
+						document.querySelector('div.answer').appendChild(itemAnswer)
+						document.querySelector('div.answer').appendChild(button)
+						
+						//adding eent listener to the button
+						document.getElementById('submitButton').addEventListener("click", function() {	
+							//check if textarea has content
+							if(document.getElementById('answerTextarea').value){
+								console.log('text area vale: ', document.getElementById('answerTextarea').value)
+								// get content of text area
+								const answer = document.getElementById('answerTextarea').value
+								//api call to submit answer
+								//get question id
+								const questionId = question.id
+								console.log('question id is :', questionId)
+								//call sendAnswer FUNCTION
+								sendAnswer(answer,questionId,cookie)
+								
+								/*
+								//set url to fetch
+								const postUrl = `${apiURL}/v2/items/answer/${questionId}`
+								//initializing headers , methods and body
+								const options = { method: 'PUT', body: answer, headers: {Authorization: cookie }  }
+								const response =  fetch(postUrl,options)
+								console.log(response)
+									*/
+								window.location.href = '/#'
+								
+							}else{alert("Please add an answer before submitting");}							
+					  })							
+					}
+			}// for each question			
+		}else{
+			//if no questions
+			console.log('no questions')	  
 		}
 	}else{
-		// --- Creating question ---
+		console.log('user isnt seller')
+		//if not user == seller
+		//check if questions
+		if(item.questions){
+			console.log('questions are present:', item.questions)
+			const questions = item.questions
+			for(const question of questions){
+				//check if question is answered
+				if(question.isanswered){
+					console.log('question is answered')
+					//show question and answer
+					// --- Creating question ---
+					// creating div element for item question
+					const questionDiv = document.createElement('div')
+					questionDiv.classList.add('itemdQuestion')
+					//create label elemnt for item Question
+					const itemdQuestion = document.createElement('h5')
 
-		// creating div element for item question
-		const questionDiv = document.createElement('div')
-		questionDiv.classList.add('itemdQuestion')
-		//create label elemnt for item Question
-		const itemdQuestion = document.createElement('label')
+					// set innertext of label element to item question
+					itemdQuestion.innerText = ` Q: ${question.question}`
+					//append itemdDescription with the h3 child
+					questionDiv.appendChild(itemdQuestion)
+					//appending main div with the itemNameDiv
+					document.querySelector('div.productDetails').appendChild(questionDiv)
 
-		// set innertext of label element to item question
-		itemdQuestion.innerText = `Question: ${questions[0].question}`
-		//append itemdQuestionDiv with the label child
-		questionDiv.appendChild(itemdQuestion)
-		//appending main div with the itemQuestion
-		document.querySelector('div.productDetails').appendChild(questionDiv)	
+					// --- CREATING ANSwER ---
+					// creating div element for item  answer
+					const answerDiv = document.createElement('div')
+					answerDiv.classList.add('answer')
+					//create h3 elemnt for item name
+					const itemAnswer = document.createElement('h5')
+					//get item name from databse
+					const answer = question.answer
+					// set innertext of h3 element to item name
+					itemAnswer.innerText = `Answer : ${answer}`
+					//append itemNameDiv with the h3 child
+					questionDiv.appendChild(itemAnswer)
+					//creating line break
+					const lineBreak = document.createElement('br')
+					questionDiv.appendChild(lineBreak)
+					
+
+					
+					
+				}else{
+					console.log('question is not answer')
+					// --- Creating question ---
+
+					// creating div element for item question
+					const questionDiv = document.createElement('div')
+					questionDiv.classList.add('itemdQuestion')
+					//create label elemnt for item Question
+					const itemdQuestion = document.createElement('h5')
+
+					// set innertext of label element to item question
+					itemdQuestion.innerText = ` Q: ${question.question}`
+					//append itemdDescription with the h3 child
+					questionDiv.appendChild(itemdQuestion)
+					//appending main div with the itemNameDiv
+					document.querySelector('div.productDetails').appendChild(questionDiv)
+				}
+				
+			}
+		}else{console.log('no questions')}
+		
+		//show contact seller button
+		const contactSellerBtn = document.createElement('button')
+		contactSellerBtn.setAttribute("id",'contactSeller')
+		contactSellerBtn.innerText = 'Contact Seller'
+		//adding element to html
+		document.querySelector('div.productDetails').appendChild(contactSellerBtn)
+		//event listener
+		//event listener
+		document.getElementById('contactSeller').addEventListener("click", function() {				
+			window.location.href = '/#contactSeller'
+  })			
+		}
+	}else{
+		//show questions
+		if(item.questions){
+			console.log('questions are present:', item.questions)
+			const questions = item.questions
+			for(const question of questions){
+				//check if question is answered
+				if(question.isanswered){
+					console.log('question is answered')
+					//show question and answer
+					// --- Creating question ---
+					// creating div element for item question
+					const questionDiv = document.createElement('div')
+					questionDiv.classList.add('itemdQuestion')
+					//create label elemnt for item Question
+					const itemdQuestion = document.createElement('h5')
+
+					// set innertext of label element to item question
+					itemdQuestion.innerText = ` Q: ${question.question}`
+					//append itemdDescription with the h3 child
+					questionDiv.appendChild(itemdQuestion)
+					//appending main div with the itemNameDiv
+					document.querySelector('div.productDetails').appendChild(questionDiv)
+
+					// --- CREATING ANSwER ---
+					
+					//create h3 elemnt for item name
+					const itemAnswer = document.createElement('h5')
+					//get item name from databse
+					const answer = question.answer
+					// set innertext of h3 element to item name
+					itemAnswer.innerText = `Answer : ${answer}`
+					//append itemNameDiv with the h3 child
+					questionDiv.appendChild(itemAnswer)
+					
+				}else{
+					console.log('question is not answer')
+					// --- Creating question ---
+
+					// creating div element for item question
+					const questionDiv = document.createElement('div')
+					questionDiv.classList.add('itemdQuestion')
+					//create label elemnt for item Question
+					const itemdQuestion = document.createElement('h5')
+
+					// set innertext of label element to item question
+					itemdQuestion.innerText = ` Q: ${question.question}`
+					//append itemdDescription with the h3 child
+					questionDiv.appendChild(itemdQuestion)
+					//appending main div with the itemNameDiv
+					document.querySelector('div.productDetails').appendChild(questionDiv)
+				}
+				
+			}
+		}else{console.log('no questions')}
 	}
-	
 	
 	//carousel navigation
 	document.
@@ -164,29 +387,10 @@ async function loadPage(){
 	
 }
 
-//
-function checkShowContactSeller(){
-	console.log('inside checkShowContactSeller function')
-	// check if user is logged in to view sellerpage in menu
-		if(getCookie('authorization') && !document.querySelector('#contactSeller') ) {
-			console.log('authorised')
-			// create btn element and add contactSeller id
-			const contactSellerBtn = document.createElement('button')
-			contactSellerBtn.setAttribute("id",'contactSeller')
-			contactSellerBtn.innerText = 'Contact Seller'
-			//adding element to html
-			document.querySelector('div.productDetails').appendChild(contactSellerBtn)
-			//event listener
-			document.getElementById('contactSeller').addEventListener("click", function() {				
-				window.location.href = '/#contactSeller'
-	  })
-			
-	}else if (!getCookie('authorization') && document.querySelector('#contactSeller')){
-		const contactSellerBtn = document.querySelector('#contactSeller')
-		contactSellerBtn.parentNode.removeChild(contactSellerBtn);
-	}
+
 	
-}
+	
+
 
 
 function moveToNextSlide() {
@@ -223,3 +427,41 @@ function updateSlidePosition() {
 	console.log('slides[slidePosition]', currentSlide)
   slides[slidePosition].classList.add('carousel__item--visible');
 }
+
+//function to get the current logged in user username and sellerid
+async function getCurrentUser(cookie){
+	console.log('Inside getCurrentUser function')
+	try{
+		console.log('the cookie inside the loadpage', cookie)
+		
+		const url = `${apiURL}/accounts/useraccount/currentuser`
+		const options = {headers: { Authorization: cookie } }
+
+		const response = await fetch(url,options)
+		console.log('the response :', response)
+		
+		const data = await response.json()						
+		console.log('the username is :', data.username)
+		console.log('the sellerId is :', data.sellerId)
+	
+		if(response.status === 401) throw new Error(json.msg)
+		if(response.status === 200) {
+			console.log('success')
+			return [data.username , data.sellerId]
+		}
+	}catch(err) {
+		showMessage(err.message)
+	}	
+}
+
+async function sendAnswer(answer,questionId,cookie){
+	//set url to fetch
+	console.log('insdie sendAnswer function')
+	const postUrl = `${apiURL}/v2/items/answer/${questionId}`
+	//initializing headers , methods and body
+	const options = { method: 'PUT', body: answer, headers: {Authorization: cookie }  }
+	const response =  await fetch(postUrl,options)
+	console.log(response)
+
+}
+
