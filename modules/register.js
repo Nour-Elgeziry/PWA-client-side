@@ -2,6 +2,7 @@
 /* register.js */
 
 import { showMessage } from '../js/core.js'
+const herokuApiUrl = 'https://auction-api-app.herokuapp.com'
 const apiURL = 'https://jackson-relax-8080.codio-box.uk'
 export async function setup() {
 	console.log('Register Main script')
@@ -31,7 +32,7 @@ async function registerAccount(event) {
 		}
 	
 		const options = { method: 'post', body: formData }
-		const url = `${apiURL}/accounts/`
+		const url = `${herokuApiUrl}/accounts/`
 		console.log('options',options)
 		const response = await fetch(url,options)
 		const json = await response.json()

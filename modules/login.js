@@ -2,7 +2,7 @@
 
 import { generateToken, getCookie, setCookie, showMessage, getLocation,login } from '../js/core.js'
 const apiURL = 'https://jackson-relax-8080.codio-box.uk'
-
+const herokuApiUrl = 'https://auction-api-app.herokuapp.com'
 export function setup() {
 	console.log('Login Main script')
 	const cookie = getCookie('authorization')
@@ -35,7 +35,7 @@ async function userLogin(event) {
 		console.log('generated token :',token)
 		
 		//setting the fetch url with the auth header containing the token	
-		const url = `${apiURL}/accounts/login/${data.user}`
+		const url = `${herokuApiUrl}/accounts/login/${data.user}`
 		const options = { headers: {Authorization: token }  }
 		console.log('the request header', options)
 		

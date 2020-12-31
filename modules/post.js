@@ -2,6 +2,7 @@
 
 import { getCookie } from '../js/core.js'
 const apiURL = 'https://jackson-relax-8080.codio-box.uk'
+const herokuApiUrl = 'https://auction-api-app.herokuapp.com'
 export async function setup() {
 		console.log('User Authorized')
 		console.log('Post Main script')
@@ -50,7 +51,7 @@ async function postItem(event) {
 		const options = { method: 'POST', body: formData, headers: {Authorization: cookie }  }
 		console.log('options',options)
 		//setting the fetch url
-		const postUrl = `${apiURL}/v2/items/`	
+		const postUrl = `${herokuApiUrl}/v2/items/`	
 		console.log('fetch url', postUrl)		
 		const response = await fetch(postUrl,options)		
 		const json = await response.json()
@@ -70,7 +71,7 @@ async function getCurrentUser(cookie){
 	try{
 		console.log('the cookie inside the loadpage', cookie)
 		
-		const url = `${apiURL}/accounts/useraccount/currentuser`
+		const url = `${herokuApiUrl}/accounts/useraccount/currentuser`
 		const options = {headers: { Authorization: cookie } }
 
 		const response = await fetch(url,options)

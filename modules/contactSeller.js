@@ -1,4 +1,5 @@
 import { showMessage, getCookie } from '../js/core.js'
+const herokuApiUrl = 'https://auction-api-app.herokuapp.com'
 const apiURL = 'https://jackson-relax-8080.codio-box.uk'
 //import sgMail from '@sendgrid/mail' 
 
@@ -40,7 +41,7 @@ async function postQuestion(event) {
 		const options = { method: 'POST', body: formData, headers: {Authorization: cookie }  }
 		console.log('options',options)
 		//setting the fetch url
-		const postUrl = `${apiURL}/v2/items/question/${itemId}`	
+		const postUrl = `${herokuApiUrl}/v2/items/question/${itemId}`	
 		console.log('fetch url', postUrl)		
 		const response = await fetch(postUrl,options)
 		const json = await response.json()
