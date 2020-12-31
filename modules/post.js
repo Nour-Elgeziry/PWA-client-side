@@ -60,7 +60,7 @@ async function postItem(event) {
 		
 		
 	} catch(err) {
-		console.log(err.message)
+		show(err.message)
 	}
 }
 

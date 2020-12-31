@@ -2,7 +2,7 @@
 /* home.js */
 
 import { getCookie, login, showMessage } from '../js/core.js'
-
+const herokuApiUrl = 'https://auction-api-app.herokuapp.com'
 const apiURL = 'https://jackson-relax-8080.codio-box.uk'
 const slides = document.getElementsByClassName('carousel__item')
 let slidePosition = 0
@@ -13,7 +13,7 @@ export async function setup() {
 		//calling checkShow seller function to decide if seller page should be visible
 		checkShowSeller()
 		
-		const url = `${apiURL}/v2/items/`
+		const url = `${herokuApiUrl}/v2/items/`
 		const json = await fetch(url)
 		const data = await json.json()		
 		console.log("number of items = ", data.data.length)
@@ -53,7 +53,8 @@ export async function setup() {
 			//adding eventlistener
 			itemName.addEventListener("click", function() {
 				console.log('inside the item name event listener')
-				
+				goToProductDetail(itemInfo.id,data.data.indexOf(item));
+				/*
 				var f = document.createElement("form");
 				f.setAttribute('method',"GET")
 				f.setAttribute('action',"/#productDetails") 
@@ -72,8 +73,9 @@ export async function setup() {
 				document.querySelector(`#\\3${data.data.indexOf(item)}`).appendChild(f)
 				document.getElementById("pd").style.display="none";
 				sessionStorage.setItem('itemId', itemInfo.id)
-				document.getElementById("pd").submit();
 				
+				//document.getElementById("pd").submit();
+				*/
 				
 				
 				
@@ -88,8 +90,7 @@ export async function setup() {
 			//adding eventlistener
 			itemStatus.addEventListener("click", function() {
 				console.log('inside the item status event listener')
-				sessionStorage.setItem('itemId', itemInfo.id)
-				window.location.href = '/#productDetails'
+				goToProductDetail(itemInfo.id,data.data.indexOf(item))
 			  })
 
 			/*create ul elemnt for item sellerInfo
@@ -150,8 +151,7 @@ export async function setup() {
 				//adding eventlistener
 				img.addEventListener("click", function() {
 					console.log('inside the item image event listener')
-					sessionStorage.setItem('itemId', itemInfo.id)
-					window.location.href = '/#productDetails'
+					goToProductDetail(itemInfo.id,data.data.indexOf(item))
 			  })
 
 				document.querySelector(`#\\3${data.data.indexOf(item)}`).appendChild(img)
@@ -210,6 +210,30 @@ function checkShowSeller(){
 		seller.parentNode.removeChild(seller);
 	}
 	
+}
+
+function goToProductDetail(itemId,elementId){
+	console.log('Going to productDetails')
+	var f = document.createElement("form");
+	f.setAttribute('method',"GET")
+	f.setAttribute('action',"/#productDetails") 
+	f.setAttribute('id',"pd")
+
+	var i = document.createElement("input"); //input element, text
+	i.setAttribute('type',"text");
+	i.setAttribute('name',`${itemId}`);
+
+	var s = document.createElement("input"); //input element, Submit button
+	s.setAttribute('type',"submit");
+	s.setAttribute('value',"Submit");
+
+	f.appendChild(i);
+	f.appendChild(s);
+	document.querySelector(`#\\3${elementId}`).appendChild(f)
+	document.getElementById("pd").style.display="none";
+	sessionStorage.setItem('itemId', itemId)
+				
+	document.getElementById("pd").submit();
 }
 
 

@@ -48,7 +48,7 @@ async function userLogin(event) {
 		if(response.status === 200) {
 			setCookie('authorization', token, 1)
 			console.log(getCookie('authorization'))
-			//window.location.href = '#home'
+			window.location.href = '#home'
 		}
 	} catch(err) {
 		showMessage(err.message)
