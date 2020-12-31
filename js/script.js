@@ -11,6 +11,9 @@
 
 import { getCookie, getLocation, onlineStatus } from './core.js'
 
+//register the service worker
+navigator.serviceWorker.register('./sw.js')
+
 let geoID
 
 // event triggered when the page first loads, triggers the 'hashchange' event
