@@ -44,14 +44,16 @@ async function userLogin(event) {
 		console.log(json)
 		const status = response.status
 		console.log(`HTTP status code: ${response.status}`)
-		if(response.status === 401) throw new Error(json.msg)
+		if(response.status === 404){			
+			alert('Invalid Username or Password')
+		} 
 		if(response.status === 200) {
 			setCookie('authorization', token, 1)
 			console.log(getCookie('authorization'))
 			window.location.href = '#home'
 		}
 	} catch(err) {
-		showMessage(err.message)
+		console.log(err.message)
 	}
 }
  

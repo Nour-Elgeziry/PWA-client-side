@@ -195,7 +195,7 @@ async function loadPage(){
 						
 						//create button to submit answer
 						const button = document.createElement("input")
-						button.setAttribute('type',"button")
+						button.setAttribute('type',"submit")
 						button.setAttribute('id',"submitButton")
 						button.innerText = "Submit"
 						
@@ -218,7 +218,7 @@ async function loadPage(){
 								const questionId = question.id
 								console.log('question id is :', questionId)
 								//call sendAnswer FUNCTION
-								sendAnswer(answer,questionId,cookie)
+								 sendAnswer(answer,questionId,cookie)
 								
 								/*
 								//set url to fetch
@@ -228,7 +228,7 @@ async function loadPage(){
 								const response =  fetch(postUrl,options)
 								console.log(response)
 									*/
-								window.location.href = '/#'
+								
 								
 							}else{alert("Please add an answer before submitting");}							
 					  })							
@@ -289,14 +289,14 @@ async function loadPage(){
 
 					// creating div element for item question
 					const questionDiv = document.createElement('div')
-					questionDiv.classList.add('itemdQuestion')
+					questionDiv.classList.add('itemQuestion')
 					//create label elemnt for item Question
-					const itemdQuestion = document.createElement('h5')
+					const itemQuestion = document.createElement('h5')
 
 					// set innertext of label element to item question
-					itemdQuestion.innerText = ` Q: ${question.question}`
-					//append itemdDescription with the h3 child
-					questionDiv.appendChild(itemdQuestion)
+					itemQuestion.innerText = ` Q: ${question.question}`
+					//append itemDescription with the h3 child
+					questionDiv.appendChild(itemQuestion)
 					//appending main div with the itemNameDiv
 					document.querySelector('div.productDetails').appendChild(questionDiv)
 				}
@@ -464,6 +464,6 @@ async function sendAnswer(answer,questionId,cookie){
 	const options = { method: 'PUT', body: answer, headers: {Authorization: cookie }  }
 	const response =  await fetch(postUrl,options)
 	console.log(response)
-
+	window.location.href = '/#'
 }
 
