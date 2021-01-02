@@ -35,7 +35,7 @@ async function userLogin(event) {
 		console.log('generated token :',token)
 		
 		//setting the fetch url with the auth header containing the token	
-		const url = `${herokuApiUrl}/accounts/login/${data.user}`
+		const url = `${apiURL}/accounts/login/${data.user}`
 		const options = { headers: {Authorization: token }  }
 		console.log('the request header', options)
 		

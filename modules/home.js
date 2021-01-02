@@ -13,7 +13,7 @@ export async function setup() {
 		//calling checkShow seller function to decide if seller page should be visible
 		checkShowSeller()
 		
-		const url = `${herokuApiUrl}/v2/items/`
+		const url = `${apiURL}/v2/items/`
 		const json = await fetch(url)
 		const data = await json.json()		
 		console.log("number of items = ", data.data.length)
@@ -82,7 +82,7 @@ export async function setup() {
 			  })
 
 			//create h3 elemnt for item status
-			const itemStatus = document.createElement('h3')
+			const itemStatus = document.createElement('h4')
 			//get item status
 			const status = itemInfo.status
 			// set innertext of h3 element to item name

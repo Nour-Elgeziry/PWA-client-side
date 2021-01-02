@@ -190,6 +190,13 @@ text-align: center;
 .carousel .carousel__item--visible {
   display: block;
   animation: fadeVisibility 0.5s;
+	background-color: #CCC;
+
+}
+
+.carousel .carousel__item--visible h3 {
+ 
+  border-bottom-style: double;
 }
 
 .carousel .carousel__actions {
@@ -216,6 +223,11 @@ text-align: center;
 
 .carousel .carousel__actions button#carousel__button--next {
   margin-right: 20px;
+}
+
+/* Question and answers */
+.itemQuestion{
+	border:outset
 }
 
 @keyframes fadeVisibility {

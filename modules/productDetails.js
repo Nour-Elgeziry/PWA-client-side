@@ -19,7 +19,7 @@ async function loadPage(){
 	console.log('recieved item id',itemId)
 	
 	//fetching the api for item info
-	const url = `${herokuApiUrl}/v2/items/${itemId}`
+	const url = `${apiURL}/v2/items/${itemId}`
 	
 	
 	const json = await fetch(url)
@@ -137,21 +137,21 @@ async function loadPage(){
 
 						// creating div element for item question
 						const questionDiv = document.createElement('div')
-						questionDiv.classList.add('itemdQuestion')
+						questionDiv.classList.add('itemQuestion')
 						//create label elemnt for item Question
-						const itemdQuestion = document.createElement('h5')
+						const itemQuestion = document.createElement('h5')
 
 						// set innertext of label element to item question
-						itemdQuestion.innerText = ` Q: ${question.question}`
+						itemQuestion.innerText = ` Q: ${question.question}`
 						//append itemdDescription with the h3 child
-						questionDiv.appendChild(itemdQuestion)
+						questionDiv.appendChild(itemQuestion)
 						//appending main div with the itemNameDiv
 						document.querySelector('div.productDetails').appendChild(questionDiv)
+						//adding liner break
+						const lineBreak = document.createElement('br')
+						document.querySelector('div.productDetails').appendChild(lineBreak)
 
 						// --- CREATING ANSwER ---
-						// creating div element for item  answer
-						const answerDiv = document.createElement('div')
-						answerDiv.classList.add('answer')
 						//create h3 elemnt for item name
 						const itemAnswer = document.createElement('h5')
 						//get item name from databse
@@ -160,9 +160,7 @@ async function loadPage(){
 						itemAnswer.innerText = `Answer : ${answer}`
 						//append questionDiv with the h5 child
 						questionDiv.appendChild(itemAnswer)
-						//creating line break
-						const lineBreak = document.createElement('br')
-						questionDiv.appendChild(lineBreak)
+						
 						
 						
 
@@ -173,14 +171,14 @@ async function loadPage(){
 
 						// creating div element for item question
 						const questionDiv = document.createElement('div')
-						questionDiv.classList.add('itemdQuestion')
+						questionDiv.classList.add('itemQuestion')
 						//create label elemnt for item Question
-						const itemdQuestion = document.createElement('h5')
+						const itemQuestion = document.createElement('h5')
 
 						// set innertext of label element to item question
-						itemdQuestion.innerText = ` Q: ${question.question}`
+						itemQuestion.innerText = ` Q: ${question.question}`
 						//append itemdDescription with the h3 child
-						questionDiv.appendChild(itemdQuestion)
+						questionDiv.appendChild(itemQuestion)
 						//appending main div with the itemNameDiv
 						document.querySelector('div.productDetails').appendChild(questionDiv)
 
@@ -201,6 +199,9 @@ async function loadPage(){
 						
 						//appending main div with the answerDiv
 						document.querySelector('div.productDetails').appendChild(answerDiv)
+						//adding liner break
+						const lineBreak = document.createElement('br')
+						document.querySelector('div.productDetails').appendChild(lineBreak)
 						
 						// append tect area and button inside answer div
 						document.querySelector('div.answer').appendChild(itemAnswer)
@@ -255,19 +256,16 @@ async function loadPage(){
 					const questionDiv = document.createElement('div')
 					questionDiv.classList.add('itemdQuestion')
 					//create label elemnt for item Question
-					const itemdQuestion = document.createElement('h5')
+					const itemQuestion = document.createElement('h5')
 
 					// set innertext of label element to item question
-					itemdQuestion.innerText = ` Q: ${question.question}`
+					itemQuestion.innerText = ` Q: ${question.question}`
 					//append itemdDescription with the h3 child
-					questionDiv.appendChild(itemdQuestion)
+					questionDiv.appendChild(itemQuestion)
 					//appending main div with the itemNameDiv
 					document.querySelector('div.productDetails').appendChild(questionDiv)
 
 					// --- CREATING ANSwER ---
-					// creating div element for item  answer
-					const answerDiv = document.createElement('div')
-					answerDiv.classList.add('answer')
 					//create h3 elemnt for item name
 					const itemAnswer = document.createElement('h5')
 					//get item name from databse
@@ -276,13 +274,10 @@ async function loadPage(){
 					itemAnswer.innerText = `Answer : ${answer}`
 					//append itemNameDiv with the h3 child
 					questionDiv.appendChild(itemAnswer)
-					//creating line break
+					//adding liner break
 					const lineBreak = document.createElement('br')
-					questionDiv.appendChild(lineBreak)
-					
-
-					
-					
+					document.querySelector('div.productDetails').appendChild(lineBreak)
+						
 				}else{
 					console.log('question is not answer')
 					// --- Creating question ---
@@ -299,6 +294,10 @@ async function loadPage(){
 					questionDiv.appendChild(itemQuestion)
 					//appending main div with the itemNameDiv
 					document.querySelector('div.productDetails').appendChild(questionDiv)
+					//adding liner break
+					const lineBreak = document.createElement('br')
+					document.querySelector('div.productDetails').appendChild(lineBreak)
+					
 				}
 				
 			}
@@ -329,16 +328,19 @@ async function loadPage(){
 					// --- Creating question ---
 					// creating div element for item question
 					const questionDiv = document.createElement('div')
-					questionDiv.classList.add('itemdQuestion')
+					questionDiv.classList.add('itemQuestion')
 					//create label elemnt for item Question
-					const itemdQuestion = document.createElement('h5')
+					const itemQuestion = document.createElement('h5')
 
 					// set innertext of label element to item question
-					itemdQuestion.innerText = ` Q: ${question.question}`
+					itemQuestion.innerText = ` Q: ${question.question}`
 					//append itemdDescription with the h3 child
-					questionDiv.appendChild(itemdQuestion)
+					questionDiv.appendChild(itemQuestion)
 					//appending main div with the itemNameDiv
 					document.querySelector('div.productDetails').appendChild(questionDiv)
+					//adding liner break
+					const lineBreak = document.createElement('br')
+					document.querySelector('div.productDetails').appendChild(lineBreak)
 
 					// --- CREATING ANSwER ---
 					
@@ -351,20 +353,24 @@ async function loadPage(){
 					//append itemNameDiv with the h3 child
 					questionDiv.appendChild(itemAnswer)
 					
+					
 				}else{
 					console.log('question is not answer')
 					// --- Creating question ---
 
 					// creating div element for item question
 					const questionDiv = document.createElement('div')
-					questionDiv.classList.add('itemdQuestion')
+					questionDiv.classList.add('itemQuestion')
 					//create label elemnt for item Question
-					const itemdQuestion = document.createElement('h5')
+					const itemQuestion = document.createElement('h5')
 
 					// set innertext of label element to item question
-					itemdQuestion.innerText = ` Q: ${question.question}`
+					itemQuestion.innerText = ` Q: ${question.question}`
 					//append itemdDescription with the h3 child
-					questionDiv.appendChild(itemdQuestion)
+					questionDiv.appendChild(itemQuestion)
+					//adding liner break
+					const lineBreak = document.createElement('br')
+					document.querySelector('div.productDetails').appendChild(lineBreak)
 					//appending main div with the itemNameDiv
 					document.querySelector('div.productDetails').appendChild(questionDiv)
 				}
@@ -436,7 +442,7 @@ async function getCurrentUser(cookie){
 	try{
 		console.log('the cookie inside the getcurrenUser', cookie)
 		
-		const url = `${herokuApiUrl}/accounts/useraccount/currentuser`
+		const url = `${apiURL}/accounts/useraccount/currentuser`
 		const options = {headers: { Authorization: cookie } }
 
 		const response = await fetch(url,options)
@@ -459,7 +465,7 @@ async function getCurrentUser(cookie){
 async function sendAnswer(answer,questionId,cookie){
 	//set url to fetch
 	console.log('insdie sendAnswer function')
-	const postUrl = `${herokuApiUrl}/v2/items/answer/${questionId}`
+	const postUrl = `${apiURL}/v2/items/answer/${questionId}`
 	//initializing headers , methods and body
 	const options = { method: 'PUT', body: answer, headers: {Authorization: cookie }  }
 	const response =  await fetch(postUrl,options)
