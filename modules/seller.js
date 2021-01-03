@@ -194,6 +194,24 @@ async function loadPage(cookie){
 			})
 	}
 		
+	
+	//carousel navigation
+	document.getElementById('carousel__button--next').addEventListener("click", function() {		
+		moveToNextSlide()
+	  })
+	document.getElementById('carousel__button--prev').addEventListener("click", function() {
+		moveToPrevSlide()
+	  })
+	}else {
+		const actions = document.querySelector('div.carousel__actions').style.display = "none"
+		console.log('actions class',actions)
+		
+		const title = document.createElement('h2')
+		title.innerText = 'No items available'
+		document.querySelector('div.carousel').appendChild(title)
+		
+	}
+	
 		// ---CREATING ADD POST BUTTON
 		//creating div element for postbutoon
 		const postButtonDiv = document.createElement('div')
@@ -210,21 +228,6 @@ async function loadPage(cookie){
 			window.location.href = '/#post'
 		  })	
 
-	//carousel navigation
-	document.getElementById('carousel__button--next').addEventListener("click", function() {		
-		moveToNextSlide()
-	  })
-	document.getElementById('carousel__button--prev').addEventListener("click", function() {
-		moveToPrevSlide()
-	  })
-	}else {
-		const actions = document.querySelector('div.carousel__actions').style.display = "none"
-		console.log('actions class',actions)
-		
-		const title = document.createElement('h2')
-		title.innerText = 'No items available'
-		document.querySelector('div.carousel').appendChild(title)
-	}
 	
 	
 
