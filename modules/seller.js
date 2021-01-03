@@ -184,6 +184,22 @@ async function loadPage(cookie){
 			deleteItem(id,cookie)		
 			
 	  })
+		
+		// ---CREATING ADD POST BUTTON
+		//creating div element for postbutoon
+		const postButtonDiv = document.createElement('div')
+		postButtonDiv.setAttribute('id','postButton')
+		//creating button element
+		const postButton = document.createElement('button')		
+		postButton.innerText = 'Post Item'		
+		//appending the parent div with the button
+		postButtonDiv.appendChild(postButton)
+		//appending the carouseldiv with the button child
+		document.querySelector(`#\\3${data.data.indexOf(item)}`).appendChild(postButtonDiv)			
+		//post button event listener
+		document.getElementById('postButton').addEventListener("click", function() {		
+			window.location.href = '/#post'
+		  })	
 
 		//waiting for status value change
 		document.querySelector(`.status${data.data.indexOf(item)}`).addEventListener("change", function() {
@@ -210,8 +226,6 @@ async function loadPage(cookie){
 		title.innerText = 'No items available'
 		document.querySelector('div.carousel').appendChild(title)
 		
-	}
-	
 		// ---CREATING ADD POST BUTTON
 		//creating div element for postbutoon
 		const postButtonDiv = document.createElement('div')
@@ -222,12 +236,16 @@ async function loadPage(cookie){
 		//appending the parent div with the button
 		postButtonDiv.appendChild(postButton)
 		//appending the carouseldiv with the button child
-		document.querySelector(`#\\3${data.data.indexOf(item)}`).appendChild(postButtonDiv)			
+		document.querySelector('div.carousel').appendChild(postButtonDiv)			
 		//post button event listener
 		document.getElementById('postButton').addEventListener("click", function() {		
 			window.location.href = '/#post'
 		  })	
 
+		
+	}
+	
+		
 	
 	
 
