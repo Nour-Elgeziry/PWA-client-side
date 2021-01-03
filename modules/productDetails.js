@@ -19,7 +19,7 @@ async function loadPage(){
 	console.log('recieved item id',itemId)
 	
 	//fetching the api for item info
-	const url = `${apiURL}/v2/items/${itemId}`
+	const url = `${herokuApiUrl}/v2/items/${itemId}`
 	
 	
 	const json = await fetch(url)
@@ -231,7 +231,7 @@ async function loadPage(){
 									*/
 								
 								
-							}else{alert("Please add an answer before submitting");}							
+							}else{alert("Please add an answer before submitting")}							
 					  })							
 					}
 			}// for each question			
@@ -384,21 +384,14 @@ async function loadPage(){
 	  getElementById('carousel__button--next')
 	  .addEventListener("click", function() {
 		moveToNextSlide();
-	  }); 
+	  }) 
 	document.
 	  getElementById('carousel__button--prev')
 	  .addEventListener("click", function() {
 		moveToPrevSlide();
-	  });
-
-	
+	  })
 	
 }
-
-
-	
-	
-
 
 
 function moveToNextSlide() {
@@ -408,32 +401,32 @@ function moveToNextSlide() {
 	if (slidePosition === totalSlides - 1) {
 		slidePosition = 0;
   } else {
-		slidePosition++;
+		slidePosition++
   }
 
-  updateSlidePosition();
+  updateSlidePosition()
 }
 
 function moveToPrevSlide() {
 	console.log('current slide position: ', slidePosition)
 	const totalSlides = slides.length
 	if (slidePosition === 0) {	
-		slidePosition = totalSlides - 1;
+		slidePosition = totalSlides - 1
   } else {
-		slidePosition--;
+		slidePosition--
   }
 
-  updateSlidePosition();
+  updateSlidePosition()
 }
 
 function updateSlidePosition() {
   for (let slide of slides) {
-    slide.classList.remove('carousel__item--visible');
-    slide.classList.add('carousel__item--hidden');
+    slide.classList.remove('carousel__item--visible')
+    slide.classList.add('carousel__item--hidden')
   }
 	const currentSlide = slides[slidePosition]
 	console.log('slides[slidePosition]', currentSlide)
-  slides[slidePosition].classList.add('carousel__item--visible');
+    slides[slidePosition].classList.add('carousel__item--visible')
 }
 
 //function to get the current logged in user username and sellerid
@@ -442,7 +435,7 @@ async function getCurrentUser(cookie){
 	try{
 		console.log('the cookie inside the getcurrenUser', cookie)
 		
-		const url = `${apiURL}/accounts/useraccount/currentuser`
+		const url = `${herokuApiUrl}/accounts/useraccount/currentuser`
 		const options = {headers: { Authorization: cookie } }
 
 		const response = await fetch(url,options)
@@ -465,7 +458,7 @@ async function getCurrentUser(cookie){
 async function sendAnswer(answer,questionId,cookie){
 	//set url to fetch
 	console.log('insdie sendAnswer function')
-	const postUrl = `${apiURL}/v2/items/answer/${questionId}`
+	const postUrl = `${herokuApiUrl}/v2/items/answer/${questionId}`
 	//initializing headers , methods and body
 	const options = { method: 'PUT', body: answer, headers: {Authorization: cookie }  }
 	const response =  await fetch(postUrl,options)

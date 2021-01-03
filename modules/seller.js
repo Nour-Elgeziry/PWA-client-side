@@ -30,7 +30,7 @@ async function loadPage(cookie){
 	console.log('current sellerId is :', sellerId)
 	
 	// get all items by this seller 
-	const url = `${apiURL}/v2/items/seller/${sellerId}/items`
+	const url = `${herokuApiUrl}/v2/items/seller/${sellerId}/items`
 	const json = await fetch(url)
 	const data = await json.json()
 	console.log('data recieved :', data.data)
@@ -237,7 +237,7 @@ async function getCurrentUser(cookie){
 	try{
 		console.log('the cookie inside the loadpage', cookie)
 		
-		const url = `${apiURL}/accounts/useraccount/currentuser`
+		const url = `${herokuApiUrl}/accounts/useraccount/currentuser`
 		const options = {headers: { Authorization: cookie } }
 
 		const response = await fetch(url,options)
@@ -264,7 +264,7 @@ async function updateStatus(id,value,cookie){
 	console.log('status value: ', value)
 	let stringify = JSON.stringify({status:value})
 	
-	const putUrl = `${apiURL}/v2/items/status/${id}`
+	const putUrl = `${herokuApiUrl}/v2/items/status/${id}`
 	console.log('sent url: ', putUrl)
 	const options = {method: 'PUT',body: stringify ,headers: { 'Content-Type': 'application/json',Authorization: cookie } }
 	console.log('options = : ', options)
@@ -275,7 +275,7 @@ async function updateStatus(id,value,cookie){
 
  async function deleteItem(id,cookie){
 	console.log('inside delete item function and recived item id is : ', id)
-	const deletUrl = `${apiURL}/v2/items/${id}`
+	const deletUrl = `${herokuApiUrl}/v2/items/${id}`
 	const options = {method: 'DELETE' ,headers: {Authorization: cookie } }
 	const deleteFetch = await fetch(deletUrl,options)
 	const data = await deleteFetch.json()
@@ -289,9 +289,9 @@ function moveToNextSlide() {
 	const totalSlides = slides.length
 	console.log('total slides', totalSlides)
   if (slidePosition === totalSlides - 1) {
-    slidePosition = 0;
+    slidePosition = 0
   } else {
-    slidePosition++;
+    slidePosition++
   }
 
   updateSlidePosition()
@@ -301,12 +301,12 @@ function moveToPrevSlide() {
 	console.log('current slide position: ', slidePosition)
 	const totalSlides = slides.length
 	if (slidePosition === 0) {		
-		slidePosition = totalSlides - 1;
+		slidePosition = totalSlides - 1
 	} else {		
-		slidePosition--;
+		slidePosition--
   }
 
-  updateSlidePosition();
+  updateSlidePosition()
 }
 
 function updateSlidePosition() {

@@ -4,6 +4,7 @@
 import { getCookie, login, showMessage } from '../js/core.js'
 const herokuApiUrl = 'https://auction-api-app.herokuapp.com'
 const apiURL = 'https://jackson-relax-8080.codio-box.uk'
+//used for carousel navigation
 const slides = document.getElementsByClassName('carousel__item')
 let slidePosition = 0
 
@@ -13,7 +14,7 @@ export async function setup() {
 		//calling checkShow seller function to decide if seller page should be visible
 		checkShowSeller()
 		
-		const url = `${apiURL}/v2/items/`
+		const url = `${herokuApiUrl}/v2/items/`
 		const json = await fetch(url)
 		const data = await json.json()		
 		console.log("number of items = ", data.data.length)
@@ -53,34 +54,9 @@ export async function setup() {
 			//adding eventlistener
 			itemName.addEventListener("click", function() {
 				console.log('inside the item name event listener')
-				goToProductDetail(itemInfo.id,data.data.indexOf(item));
-				/*
-				var f = document.createElement("form");
-				f.setAttribute('method',"GET")
-				f.setAttribute('action',"/#productDetails") 
-				f.setAttribute('id',"pd")
-
-				var i = document.createElement("input"); //input element, text
-				i.setAttribute('type',"text");
-				i.setAttribute('name',`${itemInfo.id}`);
-
-				var s = document.createElement("input"); //input element, Submit button
-				s.setAttribute('type',"submit");
-				s.setAttribute('value',"Submit");
-
-				f.appendChild(i);
-				f.appendChild(s);
-				document.querySelector(`#\\3${data.data.indexOf(item)}`).appendChild(f)
-				document.getElementById("pd").style.display="none";
-				sessionStorage.setItem('itemId', itemInfo.id)
-				
-				//document.getElementById("pd").submit();
-				*/
-				
-				
-				
-			  })
-
+				goToProductDetail(itemInfo.id,data.data.indexOf(item))
+				})
+	
 			//create h3 elemnt for item status
 			const itemStatus = document.createElement('h4')
 			//get item status
@@ -92,7 +68,8 @@ export async function setup() {
 				console.log('inside the item status event listener')
 				goToProductDetail(itemInfo.id,data.data.indexOf(item))
 			  })
-
+				
+			//Part removed when implementing stage 2
 			/*create ul elemnt for item sellerInfo
 			//get seller link to fetch
 			const sellerLink = itemInfo.seller
@@ -104,7 +81,7 @@ export async function setup() {
 			console.log('sellerInfo: ', sellerInfo)
 
 			const sellerName = sellerInfo.data.name
-			const sellerPhone = sellerInfo.data.phone     SELLER PART IS REMOVED IN VERSION 2 (STAGE 2)
+			const sellerPhone = sellerInfo.data.phone    
 
 			//creating ul element for seller info
 			const seller = document.createElement('ol')
@@ -140,12 +117,12 @@ export async function setup() {
 				console.log('image link: ', imageLink)
 
 				// adujusting link to use https
-				var position = 4;
-				var imageLink2 = [imageLink.slice(0, position), 's', imageLink.slice(position)].join('');
-				console.log('image link with https:', imageLink2);					
+				var position = 4
+				var imageLink2 = [imageLink.slice(0, position), 's', imageLink.slice(position)].join('')
+				console.log('image link with https:', imageLink2)					
 
 				//creating img element
-				var img = document.createElement('img'); 
+				var img = document.createElement('img') 
 				img.src = imageLink2
 				
 				//adding eventlistener
@@ -207,33 +184,33 @@ function checkShowSeller(){
 			navLi.appendChild(navA)
 	}else if (!getCookie('authorization') && document.querySelector('#seller')){
 		const seller = document.querySelector('#seller')
-		seller.parentNode.removeChild(seller);
+		seller.parentNode.removeChild(seller)
 	}
 	
 }
 
 function goToProductDetail(itemId,elementId){
 	console.log('Going to productDetails')
-	var f = document.createElement("form");
+	var f = document.createElement("form")
 	f.setAttribute('method',"GET")
 	f.setAttribute('action',"/#productDetails") 
 	f.setAttribute('id',"pd")
 
-	var i = document.createElement("input"); //input element, text
-	i.setAttribute('type',"text");
-	i.setAttribute('name',`${itemId}`);
+	var i = document.createElement("input") //input element, text
+	i.setAttribute('type',"text")
+	i.setAttribute('name',`${itemId}`)
 
-	var s = document.createElement("input"); //input element, Submit button
-	s.setAttribute('type',"submit");
-	s.setAttribute('value',"Submit");
+	var s = document.createElement("input") //input element, Submit button
+	s.setAttribute('type',"submit")
+	s.setAttribute('value',"Submit")
 
 	f.appendChild(i);
 	f.appendChild(s);
 	document.querySelector(`#\\3${elementId}`).appendChild(f)
-	document.getElementById("pd").style.display="none";
+	document.getElementById("pd").style.display="none"
 	sessionStorage.setItem('itemId', itemId)
 				
-	document.getElementById("pd").submit();
+	document.getElementById("pd").submit()
 }
 
 
@@ -242,32 +219,32 @@ function moveToNextSlide() {
 	const totalSlides = slides.length
 	console.log('total slides', totalSlides)
 	if (slidePosition === totalSlides - 1) {
-		slidePosition = 0;
+		slidePosition = 0
   } else {
-		slidePosition++;
+		slidePosition++
   }
 
-  updateSlidePosition();
+  updateSlidePosition()
 }
 
 function moveToPrevSlide() {
 	console.log('current slide position: ', slidePosition)
 	const totalSlides = slides.length
 	if (slidePosition === 0) {	
-		slidePosition = totalSlides - 1;
+		slidePosition = totalSlides - 1
   } else {
-		slidePosition--;
+		slidePosition--
   }
 
-  updateSlidePosition();
+  updateSlidePosition()
 }
 
 function updateSlidePosition() {
   for (let slide of slides) {
-    slide.classList.remove('carousel__item--visible');
-    slide.classList.add('carousel__item--hidden');
+    slide.classList.remove('carousel__item--visible')
+    slide.classList.add('carousel__item--hidden')
   }
 	const currentSlide = slides[slidePosition]
 	console.log('slides[slidePosition]', currentSlide)
-  slides[slidePosition].classList.add('carousel__item--visible');
+  slides[slidePosition].classList.add('carousel__item--visible')
 }

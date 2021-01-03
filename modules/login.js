@@ -3,15 +3,17 @@
 import { generateToken, getCookie, setCookie, showMessage, getLocation,login } from '../js/core.js'
 const apiURL = 'https://jackson-relax-8080.codio-box.uk'
 const herokuApiUrl = 'https://auction-api-app.herokuapp.com'
+
 export function setup() {
 	console.log('Login Main script')
 	const cookie = getCookie('authorization')
+	//checking if user is already logged in
 	if(getCookie('authorization')) {
 		console.log('authorised')
 		window.location.href = '/#home'
 	}else if (!getCookie('authorization') && document.querySelector('#seller')){
 		const seller = document.querySelector('#seller')
-		seller.parentNode.removeChild(seller);
+		seller.parentNode.removeChild(seller)
 	}
 	document.querySelector('h1').innerText = 'Log In'
 	document.querySelector('form').addEventListener('submit', async event => await userLogin(event))
@@ -35,7 +37,7 @@ async function userLogin(event) {
 		console.log('generated token :',token)
 		
 		//setting the fetch url with the auth header containing the token	
-		const url = `${apiURL}/accounts/login/${data.user}`
+		const url = `${herokuApiUrl}/accounts/login/${data.user}`
 		const options = { headers: {Authorization: token }  }
 		console.log('the request header', options)
 		
@@ -57,4 +59,4 @@ async function userLogin(event) {
 	}
 }
  
-	// {headers: { Authorization: token }, credentials: 'include'  {mode:'cors' }
+	
