@@ -184,6 +184,15 @@ async function loadPage(cookie){
 			deleteItem(id,cookie)		
 			
 	  })
+
+		//waiting for status value change
+		document.querySelector(`.status${data.data.indexOf(item)}`).addEventListener("change", function() {
+			console.log('item id: ', item.id,' the value:', this.value)
+			const id = item.id
+			const value = this.value
+			updateStatus(id,value,cookie)
+			})
+	}
 		
 		// ---CREATING ADD POST BUTTON
 		//creating div element for postbutoon
@@ -200,15 +209,6 @@ async function loadPage(cookie){
 		document.getElementById('postButton').addEventListener("click", function() {		
 			window.location.href = '/#post'
 		  })	
-		
-		//waiting for status value change
-		document.querySelector(`.status${data.data.indexOf(item)}`).addEventListener("change", function() {
-			console.log('item id: ', item.id,' the value:', this.value)
-			const id = item.id
-			const value = this.value
-			updateStatus(id,value,cookie)
-			})
-	}
 
 	//carousel navigation
 	document.getElementById('carousel__button--next').addEventListener("click", function() {		
