@@ -14,7 +14,7 @@ export async function setup() {
 		//calling checkShow seller function to decide if seller page should be visible
 		checkShowSeller()
 		
-		const url = `${herokuApiUrl}/v2/items/`
+		const url = `${apiURL}/v2/items/`
 		const json = await fetch(url)
 		const data = await json.json()		
 		console.log("number of items = ", data.data.length)

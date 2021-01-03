@@ -19,7 +19,7 @@ async function loadPage(){
 	console.log('recieved item id',itemId)
 	
 	//fetching the api for item info
-	const url = `${herokuApiUrl}/v2/items/${itemId}`
+	const url = `${apiURL}/v2/items/${itemId}`
 	
 	
 	const json = await fetch(url)
@@ -254,7 +254,7 @@ async function loadPage(){
 					// --- Creating question ---
 					// creating div element for item question
 					const questionDiv = document.createElement('div')
-					questionDiv.classList.add('itemdQuestion')
+					questionDiv.classList.add('itemQuestion')
 					//create label elemnt for item Question
 					const itemQuestion = document.createElement('h5')
 
@@ -435,7 +435,7 @@ async function getCurrentUser(cookie){
 	try{
 		console.log('the cookie inside the getcurrenUser', cookie)
 		
-		const url = `${herokuApiUrl}/accounts/useraccount/currentuser`
+		const url = `${apiURL}/accounts/useraccount/currentuser`
 		const options = {headers: { Authorization: cookie } }
 
 		const response = await fetch(url,options)
@@ -458,7 +458,7 @@ async function getCurrentUser(cookie){
 async function sendAnswer(answer,questionId,cookie){
 	//set url to fetch
 	console.log('insdie sendAnswer function')
-	const postUrl = `${herokuApiUrl}/v2/items/answer/${questionId}`
+	const postUrl = `${apiURL}/v2/items/answer/${questionId}`
 	//initializing headers , methods and body
 	const options = { method: 'PUT', body: answer, headers: {Authorization: cookie }  }
 	const response =  await fetch(postUrl,options)

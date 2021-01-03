@@ -41,7 +41,7 @@ async function postQuestion(event) {
 		const options = { method: 'POST', body: formData, headers: {Authorization: cookie }  }
 		console.log('options',options)
 		//setting the fetch url
-		const postUrl = `${herokuApiUrl}/v2/items/question/${itemId}`	
+		const postUrl = `${apiURL}/v2/items/question/${itemId}`	
 		console.log('fetch url', postUrl)		
 		const response = await fetch(postUrl,options)
 		const json = await response.json()
