@@ -19,6 +19,3 @@ then
 	echo "aborting commit"
 	exit 1
 fi
-
-
-
