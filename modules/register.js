@@ -32,7 +32,7 @@ async function registerAccount(event) {
 		}
 	
 		const options = { method: 'post', body: formData }
-		const url = `${apiURL}/accounts/`
+		const url = `${herokuApiUrl}/accounts/`
 		console.log('options',options)
 		const response = await fetch(url,options)
 		const json = await response.json()
